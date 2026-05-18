@@ -46,6 +46,7 @@ from .strategy import LoadStrategy, create_load_strategy
 logger = logging.getLogger(__name__)
 
 _WARMUP_ENABLED = os.environ.get("ENABLE_WARMUP") == "1"
+_SESSION_ID_HEADER = "X-Session-ID"
 
 
 def _extract_prompt_text(messages: list[Any]) -> str | None:
@@ -228,7 +229,8 @@ class PhaseIssuer:
         data = self._dataset.load_sample(sample_index)
         if data_override is not None:
             data = {**data, **data_override}
-        query = Query(id=query_id, data=data)
+        headers = {_SESSION_ID_HEADER: conversation_id} if conversation_id else {}
+        query = Query(id=query_id, data=data, headers=headers)
         self.uuid_to_index[query_id] = sample_index
         self.uuid_to_conv_info[query_id] = (conversation_id, turn)
         ts = time.monotonic_ns()
