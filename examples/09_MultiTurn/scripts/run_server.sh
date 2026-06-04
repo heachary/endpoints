@@ -18,10 +18,10 @@ python -m vllm.entrypoints.openai.api_server \
   --port 8001 \
   --tensor-parallel-size 8 \
   --trust-remote-code \
-  --max-model-len 65536 \
+  --max-model-len 262144 \
   --attention-backend ROCM_AITER_MLA \
   --block-size 1 \
-  --gpu-memory-utilization 0.85 \
+  --gpu-memory-utilization 0.9 \
   --kv-cache-dtype fp8 \
   --max-num-seqs 512 \
   --enable-prefix-caching \

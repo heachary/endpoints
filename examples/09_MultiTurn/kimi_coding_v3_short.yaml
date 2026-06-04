@@ -1,0 +1,40 @@
+name: "kimi-coding-v3"
+version: "1.0"
+type: "online"
+
+model_params:
+  name: "Kimi-K2.6-MXFP4"
+  temperature: 1.0
+  top_p: 0.95
+  max_new_tokens: 20000
+  chat_template_kwargs:
+    thinking: true
+    preserve_thinking: true
+
+datasets:
+  - name: agentic_coding_v3
+    type: performance
+    path: examples/09_MultiTurn/datasets/agentic_coding_v3_short.jsonl
+    multi_turn:
+      turn_timeout_s: 600.0
+      enable_salt: true
+      inject_tool_delay: true
+
+settings:
+  runtime:
+    min_duration_ms: 0
+
+  load_pattern:
+    type: multi_turn
+    target_concurrency: 8
+
+  client:
+    warmup_connections: 0
+    max_idle_time: 0.5
+
+endpoint_config:
+  endpoints:
+    - "http://localhost:8001"
+  api_type: openai
+
+report_dir: logs/kimi_coding_v3_short_260kctx
